@@ -9,13 +9,23 @@ import Sidedar from "./Sidedar";
 function App() {
 
   const [items, setItems] = useState(defaultItems);
+
+  const handleAddItem = (item) => {
+    const newItem = { name: item, id: new Date().getTime(), tracked: false };
+    setItems((items) => [...items, newItem]);
+  };
+
+  const removeAllItems = () => {
+    setItems([]); 
+  }
+
   return (
     <>
       <BackgroundHeading />
       <main>
         <Header />
         <ItemList items={items}/>
-        <Sidedar setItems={setItems}/>
+        <Sidedar handleAddItem={handleAddItem} handleRemoveAllItems={removeAllItems} />
       </main>
       <Footer />
     </>

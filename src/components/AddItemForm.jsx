@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import Button from "./Button";
 
-export default function AddItemForm({ setItems }) {
+export default function AddItemForm({ onAddItem }) {
   const [text, setText] = useState("");
   const inputRef = useRef();
   const handleSubmit = (e) => {
@@ -11,10 +11,7 @@ export default function AddItemForm({ setItems }) {
     }
 
     e.preventDefault();
-    setItems((items) => [
-      ...items,
-      { id: new Date().getTime(), name: text, tracked: false },
-    ]);
+    onAddItem(text);
     setText("");
   };
   return (
