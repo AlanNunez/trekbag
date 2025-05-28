@@ -15,9 +15,21 @@ function App() {
     setItems((items) => [...items, newItem]);
   };
 
-  const removeAllItems = () => {
+  const handleRemoveAllItems = () => {
     setItems([]); 
   }
+
+  const handleMarkAllAsComplete = () => {
+    setItems((items) => items.map(item => ({ ...item, tracked: true })));
+  };
+
+  const handleMarkAllAsIncomplete = () => {
+    setItems((items) => items.map(item => ({ ...item, tracked: false })));
+  };
+
+  const handleResetToInitial = () => {
+    setItems(defaultItems);
+  };
 
   return (
     <>
@@ -25,7 +37,13 @@ function App() {
       <main>
         <Header />
         <ItemList items={items}/>
-        <Sidedar handleAddItem={handleAddItem} handleRemoveAllItems={removeAllItems} />
+        <Sidedar 
+        handleAddItem={handleAddItem} 
+        handleRemoveAllItems={handleRemoveAllItems} 
+        handleMarkAllAsComplete={handleMarkAllAsComplete}
+        handleMarkAllAsIncomplete={handleMarkAllAsIncomplete}
+        handleResetToInitial={handleResetToInitial}
+        />
       </main>
       <Footer />
     </>
