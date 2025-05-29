@@ -1,16 +1,39 @@
+import Select from "react-select";
 import Empty from "./Empty";
+import { useState, useMemo } from "react";
 
+const options = [
+  { value: "default", label: "Sort by default" },
+  { value: "packed", label: "Sort by packed" },
+  { value: "unpacked", label: "Sort by unpacked" },
+];
 export default function ItemList({
   items,
   deleteSelectedItems,
   handleToggleItem,
 }) {
+  const [sortBy, setSortBy] = useState("default");
+
+  const sortedItems = useMemo(() => [...items].sort((a, b) => {
+  
+    if (sortBy === "unpacked") {
+      return a.tracked - b.tracked;
+    }
+    if (sortBy === "packed") {
+      return b.tracked - a.tracked;
+    }
+
+    return;
+  }), [items, sortBy]);
   return (
     <ul>
-      {items.length === 0 && (
-       <Empty />
+      {items.length === 0 && <Empty />}
+      {items.length > 0 && (
+        <section className="sorting">
+          <Select defaultValue={options[0]} options={options} onChange={(e) => setSortBy(e.value)}/>
+        </section>
       )}
-      {items.map((item) => (
+      {sortedItems.map((item) => (
         <Item
           key={item.name}
           type={item.tracked}

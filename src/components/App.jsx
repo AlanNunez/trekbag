@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { defaultItems } from "../lib/contants";
 import BackgroundHeading from "./BackgroundHeading";
 import Footer from "./Footer";
 import Header from "./Header";
 import ItemList from "./ItemList";
 import Sidedar from "./Sidedar";
+import Logo from "./Logo";
+import Counter from "./Counter";
 
 function App() {
-  const [items, setItems] = useState(defaultItems);
+  const [items, setItems] = useState(() => {
+    const localItems = localStorage.getItem("items");
+    return localItems ? JSON.parse(localItems) : defaultItems;
+  });
 
   const deleteSelectedItems = (id) => {
     const newItems = items.filter((item) => id !== item.id);
@@ -43,13 +48,27 @@ function App() {
       )
     );
   };
- 
+
+  useEffect(() => {
+    localStorage.setItem("items", JSON.stringify(items));
+  }, [items]);
+
   return (
     <>
       <BackgroundHeading />
       <main>
-        <Header numberOfPackedItems={items.filter((item) => item.tracked).length} totalNumberOfItems={items.length} />
-        <ItemList items={items} deleteSelectedItems={deleteSelectedItems} handleToggleItem={handleToggleItem} />
+        <Header>
+          <Logo />
+          <Counter
+            numberOfPackedItems={items.filter((item) => item.tracked).length}
+            totalNumberOfItems={items.length}
+          />
+        </Header>
+        <ItemList
+          items={items}
+          deleteSelectedItems={deleteSelectedItems}
+          handleToggleItem={handleToggleItem}
+        />
         <Sidedar
           handleAddItem={handleAddItem}
           handleRemoveAllItems={handleRemoveAllItems}
