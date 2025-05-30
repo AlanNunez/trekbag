@@ -1,17 +1,15 @@
+import { useContext } from "react";
 import Button from "./Button";
+import { ItemsContext } from "../contexts/ItemsContextProvider";
 
-const buttons = [
-  "Mark all as complete",
-  "Mark all as incomplete",
-  "Reset to initial",
-  "Remove all items",
-];
-export default function GroupButton({
-  handleRemoveAllItems,
-  handleMarkAllAsComplete,
-  handleMarkAllAsIncomplete,
-  handleResetToInitial,
-}) {
+export default function GroupButton() {
+  const {
+    handleMarkAllAsComplete,
+    handleMarkAllAsIncomplete,
+    handleResetToInitial,
+    handleRemoveAllItems,
+  } = useContext(ItemsContext);
+
   const secondayButtons = [
     {
       text: "Mark all as complete",
@@ -30,9 +28,10 @@ export default function GroupButton({
       onClick: handleRemoveAllItems,
     },
   ];
+
   return (
     <section className="button-group">
-      {secondayButtons.map((button, index) => (
+      {secondayButtons.map((button) => (
         <Button key={button.text} type="secondary" onClick={button.onClick}>
           {button.text}
         </Button>

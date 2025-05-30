@@ -1,19 +1,16 @@
 import Select from "react-select";
 import Empty from "./Empty";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext } from "react";
+import { ItemsContext } from "../contexts/ItemsContextProvider";
 
 const options = [
   { value: "default", label: "Sort by default" },
   { value: "packed", label: "Sort by packed" },
   { value: "unpacked", label: "Sort by unpacked" },
 ];
-export default function ItemList({
-  items,
-  deleteSelectedItems,
-  handleToggleItem,
-}) {
+export default function ItemList() { 
   const [sortBy, setSortBy] = useState("default");
-
+  const { items, deleteSelectedItems, handleToggleItem } = useContext(ItemsContext);
   const sortedItems = useMemo(() => [...items].sort((a, b) => {
   
     if (sortBy === "unpacked") {
@@ -25,7 +22,7 @@ export default function ItemList({
 
     return;
   }), [items, sortBy]);
-  return (
+  return ( 
     <ul>
       {items.length === 0 && <Empty />}
       {items.length > 0 && (
@@ -34,7 +31,7 @@ export default function ItemList({
         </section>
       )}
       {sortedItems.map((item) => (
-        <Item
+          <Item
           key={item.name}
           type={item.tracked}
           deleteSelectedItems={deleteSelectedItems}
@@ -45,8 +42,8 @@ export default function ItemList({
         </Item>
       ))}
     </ul>
-  );
-}
+   );
+ }
 
 function Item({ type, children, deleteSelectedItems, id, handleToggleItem }) {
   return (

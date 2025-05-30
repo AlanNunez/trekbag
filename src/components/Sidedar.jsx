@@ -1,22 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import AddItemForm from "./AddItemForm";
 import GroupButton from "./GroupButton";
-export default function Sidedar({
-  handleAddItem,
-  handleRemoveAllItems,
-  handleMarkAllAsComplete,
-  handleMarkAllAsIncomplete,
-  handleResetToInitial,
-}) {
+import { ItemsContext } from "../contexts/ItemsContextProvider";
+export default function Sidedar() {
+  const { handleAddItem } = useContext(ItemsContext);
+  
+  console.log("Sidebar rendered");
   return (
-    <div className="sidebar">
+  <div className="sidebar">
       <AddItemForm onAddItem={handleAddItem} />
-      <GroupButton
-        handleRemoveAllItems={handleRemoveAllItems}
-        handleMarkAllAsComplete={handleMarkAllAsComplete}
-        handleMarkAllAsIncomplete={handleMarkAllAsIncomplete}
-        handleResetToInitial={handleResetToInitial}
-      />
+      <GroupButton />
     </div>
   );
 }
